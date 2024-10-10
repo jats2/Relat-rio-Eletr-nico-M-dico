@@ -1,2 +1,10 @@
-# Relat-rio-Eletr-nico-M-dico
+# Relatório-Eletrônico-Médico
 Plataforma de medicina com a finalidade de se ter os registros da história clínica, dos dados dos exames, do exame do paciente na blockchain.
+
+A ideia do projeto é a construção de uma plataforma de medicina que tem por finalidade armazenar os registros da história clínica, dos dados dos exames, do exame do paciente na blockchain, diferenciando-se em que só é permitir ao paciente ter o controle dos seus próprios dados, e com isso, possa os transportarpara qualquer outra instituição médica ou para outro médico em que possa fazer análise, de forma independente. Assim, tendo total controle sobre os seus dados. 
+
+## Etapas:
+
+#### 1º funcionalidade seria por meio da história clínica está sendo gravada, a princípio, na IPFS de forma criptografada, em que somente a chave-privada de cada carteira dos clientes pudesse descriptografar essa informação e dentro o contrato inteligente com a referência da história clínica; 
+
+#### 2º funcionalidade seria o uso de contratos inteligentes para diagnóstico médico, uma vez que tenho todas as informações do paciente na blockchain, pode-se disponibilizar essa informação para um contrato inteligente de diagnóstico que vai tá executando determinado algorítmo de análise e vai entregar a resposta do diagnóstico para o paciente (seria um caso de 2º opnião médica, porém entregue de forma independente, sem a necessidade de uma pessoa operando sistema, sendo governado por uma DAO, de forma que permita para os médicos como para os criadores de modelos de diagnósticos sejam remunerados pelos seus trabalhos pelos pacientes que não estão conectados diretamente a eles, e para o paciente uma facilidade de encontrar uma segunda opinião, principalmente, ajudando em casos não prevalentes e doenças raras, em que temos doenças "convencionais", gripes, tuberculoses, arritmia cardíaca, médicos são bem preparadados para tratar esses tipos de problemas, porém, exemplo, em caso de hemocromatoses que é uma causa genética, pode-se evitar o desgastes de vários fatores e assim, sanar uma resposta mais rápida e efetiva em cada caso específico). Assim, auxiliando esse tipo  de solução, permitir esse tipo de diagnóstico para outros profissionais e toda liberdade e segurança da blockchain.
