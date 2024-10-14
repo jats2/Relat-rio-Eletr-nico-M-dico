@@ -1,44 +1,38 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.0;
 
-contract REM {
-    struct Doenca {
-        string nomeComum;
+import "@openzeppelin/contracts@5.0.2/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+
+contract RelatorioMedico is ERC1155 {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
+
+    struct MedicalRecord {
+        string nomeDoenca;
         string causa;
         string remedioUsado;
-        string dataDeInicio; //digite dd/mm/aaaa
-        string dataDeFim; //digite dd/mm/aaaa
+        string dataInicioTratamento;
+        string dataFimTratamento;
     }
 
-    mapping(address => Doenca[]) public doencas;
-    mapping(address => mapping(address => bool)) public allowedReaders;
+    mapping(uint256 => address) public tokenOwner;
+    mapping(uint256 => bytes) public encryptedData;
 
-    // Construtor do contrato
-    constructor() public {
-        // O deployer é automaticamente o paciente e tem permissão para ler seus próprios dados
-        allowedReaders[msg.sender][msg.sender] = true;
+    constructor() ERC1155("RelatorioMedico", "REME") {}    
+
+    function createNFT(string memory _nomeDoenca, string memory _causa, string memory _remedioUsado, string memory _dataInicioTratamento, string memory _dataFimTratamento, bytes memory _encryptedData) public {
+        uint256 newItemId = Counters.Counter(_tokenIds).current();
+        tokenOwner[newItemId] = msg.sender;
+        encryptedData[newItemId] = _encryptedData;
     }
 
-    function adicionarDoenca(string memory _nomeComum, string memory _causa, string memory _remedioUsado, string memory _dataDeInicio, string memory _dataDeFim) public {
-        require(allowedReaders[msg.sender][msg.sender], "Acesso negado");
-        doencas[msg.sender].push(Doenca(_nomeComum, _causa, _remedioUsado, _dataDeInicio, _dataDeFim));
+    function getEncryptedData(uint256 tokenId) public view returns (bytes memory) {
+        require( balanceOf(msg.sender,tokenId)>0,"Token does not exist");
+        return encryptedData[tokenId];
     }
 
-    // Função para consultar o histórico médico (somente o paciente ou contratos autorizados)
-    function consultarHistoricoMedico() public view returns (Doenca[] memory) {
-        require(allowedReaders[msg.sender][msg.sender], "Acesso negado");
-        return doencas[msg.sender];
-    }
-
-    // Função para permitir que outros contratos leiam o histórico médico
-    function autorizarLeitura(address reader) public {
-        require(allowedReaders[msg.sender][msg.sender], "Acesso negado");
-        allowedReaders[msg.sender][reader] = true;
-    }
-
-    // Função para revogar a permissão de leitura de outro contrato
-    function revogarLeitura(address reader) public {
-        require(allowedReaders[msg.sender][msg.sender], "Acesso negado");
-        allowedReaders[msg.sender][reader] = false;
+    function exists(address owner, uint256 id ) internal override(ERC1155){
+        mappingStorageSlot = ERC1155.storage.slotIndex;
     }
 }
